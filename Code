@@ -1,0 +1,54 @@
+package courseEndProject;
+
+import java.io.File;
+
+import org.hamcrest.Matchers;
+import org.testng.annotations.Test;
+
+import io.restassured.RestAssured;
+import io.restassured.http.ContentType;
+public class EndProject {
+	@Test(priority='1')
+	public void GetUser() {
+		
+		
+		
+		String email = RestAssured.given()
+				.baseUri("https://reqres.in/api/users")
+				
+				.when().get()
+				.then()
+				.statusCode(200)
+				.log().all()
+				.body("data[0].first_name", Matchers.equalTo("George")).extract().path("data[0].email");
+				
+				System.out.println(email);
+				
+			
+	}
+	@Test(priority='2')
+	public void registerUser() {
+		RestAssured.given()
+		.baseUri("https://reqres.in/api/register")
+		
+		.when().get()
+		.then()
+		.statusCode(200)
+		.log().all();
+		
+	}
+	
+	@Test(priority='3')
+	public void Login() {
+		
+		RestAssured.given()
+		.baseUri("https://reqres.in/api/unknown")
+		
+		.when().get()
+		.then()
+		.statusCode(200)
+		.log().all();
+		
+	}
+	
+}
